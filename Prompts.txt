@@ -1,0 +1,55 @@
+jamesdanielmarrsritchey: Using Javascript, create a function which creates a div inside a specified element, puts the current date and time in the div, and updates it as the time changes.
+
+GitHub Copilot: ```javascript
+// Step 1: Define the function with a parameter for the target element's selector
+function createDateTimeDiv(targetSelector) {
+  // Step 2: Find the target element using the selector
+  const targetElement = document.querySelector(targetSelector);
+
+  // Step 3: Create a new div element
+  const div = document.createElement('div');
+
+  // Step 4: Define a function to update the div with the current date and time
+  function updateDateTime() {
+    const now = new Date();
+    div.textContent = now.toLocaleString(); // Using toLocaleString() to include both date and time
+  }
+
+  // Step 5: Call updateDateTime immediately to set initial date and time
+  updateDateTime();
+
+  // Step 6: Set an interval to update the div every second (1000 milliseconds)
+  setInterval(updateDateTime, 1000);
+
+  // Step 7: Append the div to the target element
+  targetElement.appendChild(div);
+}
+
+// Usage example:
+// Assuming there's an element with the ID 'date-time-container' in the HTML
+// createDateTimeDiv('#date-time-container');
+```
+
+jamesdanielmarrsritchey: The date and time should be formatted as the month (written in full), the day number (without any preceeding zeros), a comma, and then the year (as 4 digits). The time should be formatted in 12 hour time, with no preceeding zero. It should indicate AM or PM after it. Then lastly, in backets, the matching unix timestamp should be provided.
+
+GitHub Copilot: ```javascript
+function createDateTimeDiv(targetSelector) {
+  const targetElement = document.querySelector(targetSelector);
+  const div = document.createElement('div');
+
+  function updateDateTime() {
+    const now = new Date();
+    // Custom formatting for date and time
+    const formattedDate = now.toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' });
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const formattedTime = ((hours % 12) || 12) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + (hours < 12 ? 'AM' : 'PM');
+    const unixTimestamp = Math.floor(now.getTime() / 1000);
+    div.textContent = `${formattedDate}, ${formattedTime} [${unixTimestamp}]`;
+  }
+
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  targetElement.appendChild(div);
+}
+```

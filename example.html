@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Example</title>
+</head>
+<body>
+<div id='output'>The date, and time should appear below:</div>
+<script src="function.js"></script>
+<script>
+window.onload = function() {
+    const element = document.querySelector("#output");
+    if (element) {
+        createDateTimeDiv('#output');
+    }
+};
+</script>
+</body>
+</html>
